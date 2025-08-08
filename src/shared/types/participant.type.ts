@@ -1,5 +1,5 @@
 export type ParticipantType = {
-    id?: string
+    id: string
     fullName: string
     position: string
     country: string
