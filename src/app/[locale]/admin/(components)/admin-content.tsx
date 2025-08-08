@@ -8,6 +8,7 @@ import { ParticipantType } from '@/shared/types/participant.type';
 import {ParticipantsTable} from "@/app/[locale]/admin/(components)/participants-table";
 import {SpeakersTable} from "@/app/[locale]/admin/(components)/speakers-table";
 import { ConfirmDialog } from './confirm-dialog';
+import MainInfo from './main-info';
 
 export default function AdminContent() {
     const [participants, setParticipants] = useState<ParticipantType[]>([]);
@@ -41,6 +42,7 @@ export default function AdminContent() {
 
     return (
         <main className="p-6 space-y-8">
+            <MainInfo/>
             <ParticipantsTable participants={participants} />
             <SpeakersTable
                 participants={participants}
