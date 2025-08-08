@@ -1,7 +1,6 @@
-export type ContactType = {
-    fullName_kk: string;
-    fullName_ru: string;
-    fullName_en: string;
-    phone: string;
-    email: string;
+export type GoalType = {
+    subtitle_ru: string;
+    subtitle_en: string;
+    subtitle_kk: string;
+    number: number;
 }

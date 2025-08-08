@@ -19,6 +19,9 @@ import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { API } from '@/config/instance';
+import {ENDPOINTS} from "@/config/endpoints";
+import {toast} from "sonner";
+import {Trash2} from "lucide-react";
 
 interface Goal {
     id: string;
@@ -42,7 +45,7 @@ export default function Goals() {
 
     const fetchGoals = async () => {
         try {
-            const { data } = await API.get('/admin/goals');
+            const { data } = await API.get(ENDPOINTS.POST.GOALS);
             setGoals(data);
         } catch (error) {
             console.error('Ошибка при получении целей:', error);
@@ -60,7 +63,7 @@ export default function Goals() {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await API.post('/admin/goals', formData);
+            await API.post(ENDPOINTS.POST.GOALS, formData);
             await fetchGoals();
             setFormData({
                 subtitle_en: '',
@@ -69,12 +72,35 @@ export default function Goals() {
                 number: 0,
             });
             setOpen(false);
+
+            toast.success('Цель успешно создана')
         } catch (error) {
+            toast.error(`Пир созданий ошибка ${error}`,)
             console.error('Ошибка при сохранении цели:', error);
         } finally {
             setLoading(false);
         }
     };
+    const handleDelete = async (id: string) => {
+        const confirm = window.confirm('Удалить цель? Это действие необратимо.')
+        if (!confirm) return
+
+        try {
+            await API.delete(`${ENDPOINTS.POST.GOALS}/${id}`)
+            toast.success('Цель удалена')
+            fetchGoals()
+        } catch (e) {
+            toast.error(`Ошибка при удалении цели`)
+            console.error('Ошибка при удалении:', e)
+        }
+    }
+
+
+    const isFormValid =
+        formData.number > 0 &&
+        formData.subtitle_en.trim() !== '' &&
+        formData.subtitle_ru.trim() !== '' &&
+        formData.subtitle_kk.trim() !== '';
 
     return (
         <div className="space-y-6 py-6">
@@ -90,11 +116,11 @@ export default function Goals() {
                         </DialogHeader>
 
                         <div className="space-y-3">
-                            <div className="flex flex-col space-y-1">
-                                <Label>Номер</Label>
+                            <div className="flex flex-col space-y-2">
+                                <Label>Порядок</Label>
                                 <Input
                                     type="number"
-                                    placeholder="Номер"
+                                    placeholder="Порядок"
                                     value={formData.number}
                                     onChange={(e) => handleChange('number', parseInt(e.target.value))}
                                 />
@@ -117,7 +143,8 @@ export default function Goals() {
                         </div>
 
                         <div className="flex justify-end mt-4">
-                            <Button onClick={handleSubmit} disabled={loading}>
+                            <Button onClick={handleSubmit}
+                                    disabled={loading || !isFormValid}>
                                 {loading ? 'Сохранение...' : 'Сохранить'}
                             </Button>
                         </div>
@@ -136,17 +163,30 @@ export default function Goals() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {goals.map((goal) => (
+                        {goals
+                            .slice()
+                            .sort((a,b) => a.number - b.number)
+                            .map((goal) => (
                             <TableRow key={goal.id}>
                                 <TableCell>{goal.number}</TableCell>
                                 <TableCell>{goal.subtitle_en}</TableCell>
                                 <TableCell>{goal.subtitle_ru}</TableCell>
                                 <TableCell>{goal.subtitle_kk}</TableCell>
+                                <TableCell className="flex gap-2">
+                                    <Button
+                                        variant="destructive"
+                                        size="icon"
+                                        onClick={() => handleDelete(goal.id)}
+                                        title="Удалить"
+                                    >
+                                        <Trash2 size={16} />
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                         {goals.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={4} className="text-center text-muted-foreground">
+                                <TableCell colSpan={5} className="text-center text-muted-foreground">
                                     Пока нет целей
                                 </TableCell>
                             </TableRow>

@@ -4,9 +4,11 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from '@/
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from '@/shared/ui/dialog';
 import {Button} from '@/shared/ui/button';
 import {Input} from '@/shared/ui/input';
-import {Label} from '@/shared/ui/label';
 import {API} from '@/config/instance';
 import {Textarea} from "@/shared/ui/textarea";
+import {ENDPOINTS} from "@/config/endpoints";
+import {toast} from "sonner";
+import {Trash2} from "lucide-react";
 
 interface Faq {
     id: string;
@@ -34,7 +36,7 @@ export default function Faq() {
 
     const fetchFaqs = async () => {
         try {
-            const {data} = await API.get('/admin/goals');
+            const {data} = await API.get(ENDPOINTS.POST.FAQ);
             setFaqs(data);
         } catch (error) {
             console.error('Ошибка при получении целей:', error);
@@ -52,7 +54,7 @@ export default function Faq() {
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            await API.post('/admin/goals', formData);
+            await API.post(ENDPOINTS.POST.FAQ, formData);
             await fetchFaqs();
             setFormData({
                 question_kk: '',
@@ -63,12 +65,34 @@ export default function Faq() {
                 answer_en: ''
             });
             setOpen(false);
+            toast.success('Успешно создано')
         } catch (error) {
-            console.error('Ошибка при сохранении цели:', error);
+            console.error('Ошибка при сохранении:', error);
         } finally {
             setLoading(false);
         }
     };
+    const handleDelete = async (id: string) => {
+        const confirm = window.confirm('Вы уверены что хотите удалить? Это действие необратимо.')
+        if (!confirm) return
+
+        try {
+            await API.delete(`${ENDPOINTS.POST.FAQ}/${id}`)
+            toast.success('Успешно удалено')
+            fetchFaqs()
+        } catch (e) {
+            toast.error('Ошибка при удалении')
+            console.error('Ошибка при удалении:', e)
+        }
+    }
+
+    const isFormValid =
+        formData.question_en.trim() !== '' &&
+        formData.answer_en.trim() !== '' &&
+        formData.question_ru.trim() !== '' &&
+        formData.answer_ru.trim() !== '' &&
+        formData.question_kk.trim() !== '' &&
+        formData.answer_kk.trim() !== '';
 
     return (
         <div className="space-y-6">
@@ -117,7 +141,7 @@ export default function Faq() {
                         </div>
 
                         <div className="flex justify-end mt-4">
-                            <Button onClick={handleSubmit} disabled={loading}>
+                            <Button onClick={handleSubmit} disabled={loading || !isFormValid}>
                                 {loading ? 'Сохранение...' : 'Сохранить'}
                             </Button>
                         </div>
@@ -146,11 +170,21 @@ export default function Faq() {
                                 <TableCell>{faq.answer_ru}</TableCell>
                                 <TableCell>{faq.question_kk}</TableCell>
                                 <TableCell>{faq.answer_kk}</TableCell>
+                                <TableCell className="flex gap-2">
+                                    <Button
+                                        variant="destructive"
+                                        size="icon"
+                                        onClick={() => handleDelete(faq.id)}
+                                        title="Удалить"
+                                    >
+                                        <Trash2 size={16} />
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                         {faqs.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={6} className="text-center text-muted-foreground">
+                                <TableCell colSpan={7} className="text-center text-muted-foreground">
                                     Пока нет вопросов
                                 </TableCell>
                             </TableRow>

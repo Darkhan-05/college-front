@@ -23,7 +23,7 @@ export default function Page() {
         }
 
         try {
-            const response = await API.post(ENDPOINTS.POST.ADMIN.LOGIN, {email, password})
+            const response = await API.post(ENDPOINTS.POST.ADMIN_LOGIN, {email, password})
             console.log(response)
         } catch (err) {
             setError('Ошибка входа. Проверьте данные.');

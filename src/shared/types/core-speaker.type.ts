@@ -1,7 +1,6 @@
-export type ContactType = {
-    fullName_kk: string;
-    fullName_ru: string;
+export type CoreSpeakerType = {
     fullName_en: string;
-    phone: string;
-    email: string;
+    fullName_ru: string;
+    fullName_kk: string;
+    img: string;
 }

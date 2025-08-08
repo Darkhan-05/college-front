@@ -3,20 +3,20 @@ import {Card, CardContent} from "@/shared/ui/card";
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "@/shared/ui/dialog";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/shared/ui/table";
 import {useEffect, useState} from "react";
-import {Alert, AlertDescription, AlertTitle} from "@/shared/ui/alert";
 import {Button} from "@/shared/ui/button";
 import {ParticipantType} from "@/shared/types/participant.type";
 import {AxiosResponse} from "axios";
 import {API} from "@/config/instance";
 import {ENDPOINTS} from "@/config/endpoints";
-import {Sheet, SheetContent, SheetTitle, SheetTrigger} from "@/shared/ui/sheet";
-import {Menu} from "lucide-react";
+import {toast} from "sonner";
+import {
+    Pagination, PaginationContent, PaginationEllipsis, PaginationItem,
+    PaginationLink, PaginationNext, PaginationPrevious
+} from "@/shared/ui/pagination";
 
 
 export default function AdminContent() {
-    const [successMessage, setSuccessMessage] = useState("");
     const [participants, setParticipants] = useState<ParticipantType[]>([]);
-    const [errorMessage, setErrorMessage] = useState("");
     const [confirmDialog, setConfirmDialog] = useState<{
         open: boolean,
         participant: null | ParticipantType
@@ -25,12 +25,43 @@ export default function AdminContent() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const filteredParticipants = participants.filter((p) => !p.speaker);
-    const totalPages = Math.ceil(filteredParticipants.length / itemsPerPage);
-    const paginatedParticipants = filteredParticipants.slice(
+    const totalPages = Math.ceil(participants.length / itemsPerPage);
+
+    const paginatedParticipants = participants.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
+
+    const changePage = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const getPageNumbers = () => {
+        const pages = [];
+        const maxVisible = 5;
+
+        if (totalPages <= maxVisible) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            let start = Math.max(1, currentPage - 2);
+            let end = Math.min(totalPages, currentPage + 2);
+
+            if (currentPage <= 3) {
+                end = 5;
+            } else if (currentPage >= totalPages - 2) {
+                start = totalPages - 4;
+            }
+
+            for (let i = start; i <= end; i++) pages.push(i);
+
+            if (start > 1) pages.unshift("...");
+            if (end < totalPages) pages.push("...");
+        }
+
+        return pages;
+    };
 
     useEffect(() => {
         const getParticipants = async () => {
@@ -52,44 +83,22 @@ export default function AdminContent() {
 
         try {
             // await API.post("/invite-to-speak", { participantId: participant.id });
-            setSuccessMessage(`${participant.fullName} приглашен(а) как спикер.`);
+            toast.success(`${participant.fullName} приглашен(а) как спикер.`);
         } catch (error) {
-            setErrorMessage(`Произошла ошибка при отправке приглашения ${error}`);
+            toast.error(`Произошла ошибка при отправке приглашения ${error}`);
         }
 
         setConfirmDialog({open: false, participant: null});
-
-        setTimeout(() => {
-            setSuccessMessage("");
-        }, 4000);
     };
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen">
                 <main className="p-6 space-y-8">
-                    {successMessage && (
-                        <div
-                            className="fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out animate-fade-in">
-                            <Alert className="bg-green-100 border-green-400 text-green-800 shadow-lg w-80">
-                                <AlertTitle>Успешно</AlertTitle>
-                                <AlertDescription>{successMessage}</AlertDescription>
-                            </Alert>
-                        </div>
-                    )}
-                    {errorMessage && (
-                        <div
-                            className="fixed top-4 right-4 z-50 transition-opacity duration-500 ease-in-out animate-fade-in">
-                            <Alert className="bg-red-100 border-red-400 text-red-800 shadow-lg w-80">
-                                <AlertTitle>Ошибка</AlertTitle>
-                                <AlertDescription>{errorMessage}</AlertDescription>
-                            </Alert>
-                        </div>
-                    )}
-
                     <Card>
                         <CardContent className="p-4">
                             <h2 className="text-lg font-bold mb-4">Участники</h2>
+
                             <Table>
                                 <TableHeader>
                                     <TableRow>
@@ -102,50 +111,75 @@ export default function AdminContent() {
                                 </TableHeader>
                                 <TableBody>
                                     {paginatedParticipants.map((p, i) => (
-                                            <TableRow key={i}>
-                                                <TableCell>{p.fullName}</TableCell>
-                                                <TableCell>{p.position}</TableCell>
-                                                <TableCell>{p.country}</TableCell>
-                                                <TableCell>{p.email}</TableCell>
-                                                <TableCell>
-                                                    <div className="flex gap-4">
-                                                        <Dialog>
-                                                            <DialogTrigger
-                                                                className="text-blue-500 underline">Открыть</DialogTrigger>
-                                                            <DialogContent>
-                                                                <DialogHeader>
-                                                                    <DialogTitle>{p.fullName}</DialogTitle>
-                                                                </DialogHeader>
-                                                                <div className="space-y-2">
-                                                                    <p><strong>Должность:</strong> {p.position}</p>
-                                                                    <p><strong>Страна:</strong> {p.country}</p>
-                                                                    <p><strong>Email:</strong> {p.email}</p>
-                                                                    <p><strong>Телефон:</strong> {p.phone}</p>
-                                                                </div>
-                                                            </DialogContent>
-                                                        </Dialog>
-                                                    </div>
-                                                </TableCell>
-                                            </TableRow>
-                                        )
+                                        <TableRow key={i}>
+                                            <TableCell>{p.fullName}</TableCell>
+                                            <TableCell>{p.position}</TableCell>
+                                            <TableCell>{p.country}</TableCell>
+                                            <TableCell>{p.email}</TableCell>
+                                            <TableCell>
+                                                <Dialog>
+                                                    <DialogTrigger className="text-blue-500 underline">
+                                                        Открыть
+                                                    </DialogTrigger>
+                                                    <DialogContent>
+                                                        <DialogHeader>
+                                                            <DialogTitle>{p.fullName}</DialogTitle>
+                                                        </DialogHeader>
+                                                        <div className="space-y-2">
+                                                            <p><strong>Должность:</strong> {p.position}</p>
+                                                            <p><strong>Страна:</strong> {p.country}</p>
+                                                            <p><strong>Email:</strong> {p.email}</p>
+                                                            <p><strong>Телефон:</strong> {p.phone}</p>
+                                                        </div>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {paginatedParticipants.length === 0 && (
+                                        <TableRow>
+                                            <TableCell colSpan={5} className="text-center text-muted-foreground">
+                                                Пока нет участников
+                                            </TableCell>
+                                        </TableRow>
                                     )}
                                 </TableBody>
                             </Table>
-                            <div className="flex justify-between mt-4">
-                                <Button
-                                    disabled={currentPage === 1}
-                                    onClick={() => setCurrentPage((prev) => prev - 1)}
-                                >
-                                    Назад
-                                </Button>
-                                <span>Страница {currentPage} из {totalPages}</span>
-                                <Button
-                                    disabled={currentPage === totalPages}
-                                    onClick={() => setCurrentPage((prev) => prev + 1)}
-                                >
-                                    Вперёд
-                                </Button>
-                            </div>
+
+                            <Pagination className="mt-4">
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious
+                                            onClick={() => changePage(currentPage - 1)}
+                                            className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                                        />
+                                    </PaginationItem>
+
+                                    {getPageNumbers().map((page, i) =>
+                                        page === "..." ? (
+                                            <PaginationItem key={i}>
+                                                <PaginationEllipsis />
+                                            </PaginationItem>
+                                        ) : (
+                                            <PaginationItem key={i}>
+                                                <PaginationLink
+                                                    isActive={page === currentPage}
+                                                    onClick={() => changePage(page as number)}
+                                                >
+                                                    {page}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        )
+                                    )}
+
+                                    <PaginationItem>
+                                        <PaginationNext
+                                            onClick={() => changePage(currentPage + 1)}
+                                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
                         </CardContent>
                     </Card>
 

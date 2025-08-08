@@ -1,6 +1,8 @@
 export type FaqType = {
-    subtitle_ru: string
-    subtitle_en: string
-    subtitle_kk: string
-    number: number
+    question_kk: string;
+    question_ru: string;
+    question_en: string;
+    answer_kk: string;
+    answer_ru: string;
+    answer_en: string;
 }

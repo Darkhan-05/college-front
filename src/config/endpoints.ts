@@ -4,6 +4,11 @@ export const ENDPOINTS = {
     ALL_PARTICIPANTS: '/participants'
   },
   POST: {
-    ADMIN_LOGIN: '/admin/login'
+    FILE: '/documents',
+    CONTACT: '/contacts',
+    FAQ: '/faq',
+    CORE_SPEAKER: '/core-speakers',
+    ADMIN_LOGIN: '/admin/login',
+    GOALS: '/goals',
   }
 } as const;
