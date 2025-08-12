@@ -2,6 +2,7 @@
 import { motion } from 'motion/react';
 import Image from "next/image";
 import {useEffect, useState} from "react";
+import {AnimatePresence} from "framer-motion";
 
 export default function HeroBlock() {
     return (
@@ -26,7 +27,7 @@ export default function HeroBlock() {
                 initial={{opacity: 0, y: 20}}
                 animate={{opacity: 1, y: 0}}
                 transition={{delay: 0.6, ease: 'linear'}}
-                className="absolute top-1/2 right-12 -translate-y-1/2 text-white text-right leading-18 z-10 text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold"
+                className="absolute top-1/2 right-12 -translate-y-1/2 text-gray-600      text-right leading-18 z-10 text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold"
             >
                 <CountdownTimer targetDate="2025-12-01T09:00:00"/>
                 Региональная конференция <br/> Asia-Pacific Organization for Cancer Prevention
@@ -38,22 +39,55 @@ export default function HeroBlock() {
     )
 }
 
-function CountdownTimer({targetDate}: { targetDate: string }) {
-    const [timeLeft, setTimeLeft] = useState("");
+
+function CountdownTimer({ targetDate }: { targetDate: string }) {
+    const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+
+    function getTimeLeft() {
+        const diff = +new Date(targetDate) - +new Date();
+        const days = Math.max(Math.floor(diff / (1000 * 60 * 60 * 24)), 0);
+        const hours = Math.max(Math.floor((diff / (1000 * 60 * 60)) % 24), 0);
+        const minutes = Math.max(Math.floor((diff / 1000 / 60) % 60), 0);
+        const seconds = Math.max(Math.floor((diff / 1000) % 60), 0);
+
+        return { days, hours, minutes, seconds };
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const difference = +new Date(targetDate) - +new Date();
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((difference / 1000 / 60) % 60);
-            const seconds = Math.floor((difference / 1000) % 60);
-
-            setTimeLeft(`${days}д ${hours}ч ${minutes}м ${seconds}с`);
+            setTimeLeft(getTimeLeft());
         }, 1000);
 
         return () => clearInterval(interval);
     }, [targetDate]);
 
-    return <p className="text-white text-lg mt-6">До начала: {timeLeft}</p>;
+    const timeItems = [
+        { label: "д", value: timeLeft.days },
+        { label: "ч", value: timeLeft.hours },
+        { label: "м", value: timeLeft.minutes },
+        { label: "с", value: timeLeft.seconds },
+    ];
+
+    return (
+        <div className="flex gap-4 text-lg mt-6 font-mono">
+            <span>До начала:</span>
+            {timeItems.map(({ label, value }) => (
+                <div key={label} className="flex flex-col items-center justify-end">
+                    <AnimatePresence mode="popLayout">
+                        <motion.span
+                            key={value}
+                            initial={{ y: -20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 20, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            className="text-2xl font-bold"
+                        >
+                            {value}
+                        </motion.span>
+                    </AnimatePresence>
+                    <span className="text-gray-400">{label}</span>
+                </div>
+            ))}
+        </div>
+    );
 }
