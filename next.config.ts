@@ -1,5 +1,6 @@
 import type {NextConfig} from "next";
 import {ENV} from "@/config/enviroments";
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
     async rewrites() {
@@ -12,5 +13,6 @@ const nextConfig: NextConfig = {
     },
 };
 
+const withNextIntl = createNextIntlPlugin();
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

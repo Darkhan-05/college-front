@@ -1,4 +1,3 @@
-import AdminHeader from "@/widgets/admin-header";
 import Container from "@/shared/ui/wrappers/container";
 import { Toaster } from 'sonner'
 
@@ -10,7 +9,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <AdminHeader />
                 <Toaster position="top-center" />
                 <Container>
                     {children}

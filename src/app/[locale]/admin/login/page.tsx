@@ -5,8 +5,10 @@ import {Input} from '@/shared/ui/input';
 import {Button} from '@/shared/ui/button';
 import {Label} from '@/shared/ui/label';
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from '@/shared/ui/card';
-import {API} from "@/config/instance";
+import API from "@/config/instance";
 import {ENDPOINTS} from "@/config/endpoints";
+import {AxiosResponse} from "axios";
+import {PATHS} from "@/config/paths";
 
 export default function Page() {
     const [email, setEmail] = useState('');
@@ -23,8 +25,10 @@ export default function Page() {
         }
 
         try {
-            const response = await API.post(ENDPOINTS.POST.ADMIN_LOGIN, {email, password})
-            console.log(response)
+            const response: AxiosResponse<{success: boolean}> = await API.post(ENDPOINTS.POST.ADMIN_LOGIN, {email, password})
+            if(response.data.success){
+                router.push(PATHS.ADMIN.HOME)
+            }
         } catch (err) {
             setError('Ошибка входа. Проверьте данные.');
         }

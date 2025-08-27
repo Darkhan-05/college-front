@@ -1,22 +1,16 @@
 'use client';
-import { motion, useAnimation } from 'motion/react';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import Container from "@/shared/ui/wrappers/container";
+import {useTranslations} from "next-intl";
 
 export default function Speakers() {
+    const t = useTranslations()
     const wrapperRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const [maxDrag, setMaxDrag] = useState(0);
-    const [progress, setProgress] = useState(0);
-    const controls = useAnimation();
 
-    const speakers = [
-        "Иван Петров",
-        "Ольга Смирнова",
-        "Дмитрий Егоров",
-        "Анастасия Лебедева",
-        "Максим Орлов",
-    ];
+    const speakers = t.raw('speakers') as {name: string, role: string}[];
 
     useEffect(() => {
         const updateDragLimits = () => {
@@ -27,70 +21,43 @@ export default function Speakers() {
                 setMaxDrag(dragLimit > 0 ? dragLimit : 0);
             }
         };
+
         updateDragLimits();
         window.addEventListener("resize", updateDragLimits);
         return () => window.removeEventListener("resize", updateDragLimits);
     }, []);
 
-    // Автоплей карусели
-    useEffect(() => {
-        let position = 0;
-        const interval = setInterval(() => {
-            position -= 2;
-            if (Math.abs(position) > maxDrag) position = 0;
-            controls.start({ x: position });
-            setProgress(Math.abs(position) / maxDrag);
-        }, 50);
-        return () => clearInterval(interval);
-    }, [maxDrag, controls]);
-
     return (
-        <section
-            id="speakers"
-            className="py-16 relative overflow-hidden"
-        >
-
+        <section id="speakers" className="py-12">
             <Container>
-                <h2 className="text-4xl font-bold mb-8 text-center">Наши спикеры</h2>
+                <h2 className="text-3xl font-semibold mb-6 text-center">Спикеры</h2>
 
                 <div ref={wrapperRef} className="overflow-hidden">
                     <motion.div
                         ref={innerRef}
-                        className="flex gap-6 cursor-grab active:cursor-grabbing"
+                        className="flex gap-4 cursor-grab active:cursor-grabbing"
                         drag="x"
                         dragConstraints={{ left: -maxDrag, right: 0 }}
-                        animate={controls}
                     >
-                        {speakers.map((name, i) => (
+                        {speakers.map((speaker, i) => (
                             <motion.div
-                                key={name}
-                                className="basis-[calc(33.333%-1rem)] min-w-[280px] flex-shrink-0 rounded-xl p-6 text-center bg-white shadow-md border transition-all hover:scale-105 hover:shadow-2xl"
+                                key={i}
+                                className="basis-[calc(33.333%-1rem)] min-w-[280px] flex-shrink-0 rounded-lg shadow-md p-6 border text-center bg-white"
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: i * 0.15 }}
-                                whileHover={{ rotate: 1 }}
+                                transition={{ duration: 0.5, delay: i * 0.1 }}
                             >
-                                <motion.img
-                                    src={`https://i.pravatar.cc/150?img=${i + 10}`}
-                                    alt={name}
-                                    className="w-24 h-24 mx-auto rounded-full mb-4 border-4 border-transparent hover:border-blue-500 transition-all"
-                                    whileHover={{ scale: 1.1 }}
+                                <img
+                                    src={`${i + 1}-speaker.png`}
+                                    alt={speaker.name}
+                                    draggable={false}
+                                    className="w-24 h-24 mx-auto rounded-full mb-4"
                                 />
-                                <h3 className="font-semibold text-lg">{name}</h3>
-                                <p className="text-muted-foreground text-sm">Тема: Инновации в медицине</p>
+                                <h3 className="font-semibold text-lg">{speaker.name}</h3>
+                                <p className="text-muted-foreground text-sm">{speaker.role}</p>
                             </motion.div>
                         ))}
                     </motion.div>
-                </div>
-
-                {/* Прогресс-бар */}
-                <div className="w-full h-2 bg-gray-200 rounded-full mt-6">
-                    <motion.div
-                        className="h-2 bg-blue-500 rounded-full"
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${progress * 100}%` }}
-                        transition={{ ease: "linear" }}
-                    />
                 </div>
             </Container>
         </section>
