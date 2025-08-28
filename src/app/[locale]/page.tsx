@@ -10,12 +10,19 @@ import {META_INFO} from "@/shared/constants/meta/meta-info";
 import {ENV} from "@/config/enviroments";
 import {getMetaTags} from "@/shared/helpers/get-meta-tags";
 import {Metadata} from "next";
+import {LocaleType} from "@/shared/types/locale.type";
 
-export async function generateMetadata({
-    params,
-}: {
-    params: { locale: 'ru' | 'kk' | 'en' };
-}): Promise<Metadata> {
+
+type PropsType = {
+    params: Promise<{
+        locale: LocaleType;
+    }>;
+};
+
+
+export async function generateMetadata(
+    { params }: PropsType,
+): Promise<Metadata> {
     const { locale } = await params;
 
     return getMetaTags({
