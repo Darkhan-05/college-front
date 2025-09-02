@@ -13,12 +13,21 @@
     "seconds": "s"
   },
   "conference": {
-    "confirmTitle": "Confirm Participation",
-    "confirmSubtitle": "Click the button below to complete your conference registration",
     "confirmButton": "Confirm Participation",
     "confirming": "Confirming...",
-    "success": "You have successfully confirmed your participation",
-    "error": "An error occurred during confirmation",
+    "participantConfirmTitle": "Participant Confirmation",
+    "participantConfirmSubtitle": "Click the button below to complete your registration for the conference as a participant",
+    "participantSuccess": "You have successfully confirmed your participation. Check your email for a message",
+    "error": "An error occurred during confirmation. Please try following the link from your email again",
+
+    "speakerConfirmTitle": "Speaker Confirmation",
+    "speakerConfirmSubtitle": "Click the button below to confirm your participation as a speaker. After review, you will receive an invitation by email",
+    "speakerSuccess": "You have successfully confirmed your speaker application. Please wait for further instructions via email",
+
+    "sponsorConfirmTitle": "Sponsor Confirmation",
+    "sponsorConfirmSubtitle": "Click the button below to confirm your participation as a conference sponsor",
+    "sponsorSuccess": "You have successfully confirmed your participation as a sponsor. Check your email for detailed information",
+
     "registrationComplete": "Registration Complete!",
     "registrationSuccess": "You have successfully registered for the APOCP conference.",
     "addressLabel": "Address",
