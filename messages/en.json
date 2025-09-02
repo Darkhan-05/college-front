@@ -73,6 +73,7 @@
     "methodists": "Methodologists"
   },
   "errors": {
+    "emailTaken": "This email is already taken",
     "participant": "Failed to submit participant",
     "speaker": "Failed to submit speaker",
     "sponsor": "Failed to submit sponsor",
@@ -84,18 +85,17 @@
     "phoneInvalid": "Enter a valid phone number (7-20 characters, digits, spaces, +, -, parentheses allowed)",
     "organizationMin": "Please enter the organization name",
     "agreeRequired": "You must consent to the processing of personal data",
-    "articleTitleMin": "Article title must be at least 5 characters",
-    "articleSummaryMin": "Summary must be at least 10 characters",
-    "articleSummaryMax": "Summary cannot exceed 2000 characters",
-    "articleSourcesMin": "Sources must be at least 5 characters",
-    "articleSourcesMax": "Sources cannot exceed 4000 characters",
-    "articleConclusionMin": "Conclusion must be at least 5 characters",
-    "articleConclusionMax": "Conclusion cannot exceed 3000 characters"
+    "relevance": "Relevance must contain between 30 and 50 words",
+    "goal": "The goal must contain between 10 and 20 words",
+    "methods": "Materials and methods must contain between 50 and 80 words",
+    "results": "Results must contain between 120 and 180 words",
+    "conclusion": "The conclusion must contain between 30 and 50 words",
+    "agree": "You must agree to the terms"
   },
   "success": {
-    "participant": "Please confirm your participation via the email link",
-    "speaker": "Speaker application submitted successfully",
-    "sponsor": "Sponsor application submitted successfully"
+    "participant": "Please confirm your participation by clicking the link in the email we sent you",
+    "speaker": "Your speaker application has been submitted and is under review. Once approved, you will receive an invitation by email",
+    "sponsor": "Your sponsor application has been submitted successfully. Check your email for further details"
   },
   "error": {
     "participant": "Failed to submit participant",

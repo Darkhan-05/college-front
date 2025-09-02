@@ -19,7 +19,7 @@ export default function Header() {
     ];
 
     return (
-        <header className="bg-white shadow fixed font-semibold z-50 w-full">
+        <header className="bg-white shadow font-semibold z-50 w-full">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-24 items-center">
                     {/* Логотипы */}

@@ -48,7 +48,7 @@ export default function Speakers() {
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                             >
                                 <img
-                                    src={`${i + 1}-speaker.png`}
+                                    src={`speaker-${i + 1}.webp`}
                                     alt={speaker.name}
                                     draggable={false}
                                     className="w-24 h-24 mx-auto rounded-full mb-4"

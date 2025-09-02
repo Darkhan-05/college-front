@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+const wordCount = (val: string) =>
+    val.trim().split(/\s+/).filter(Boolean).length;
+
 export const createParticipantSchema = (t: (key: string) => string) =>
     z.object({
         fullName: z.string().min(3, t('fullNameMin')),
@@ -17,15 +20,50 @@ export const createParticipantSchema = (t: (key: string) => string) =>
 
 export const createSpeakerSchema = (t: (key: string) => string) =>
     createParticipantSchema(t).extend({
-        articleTitle: z.string().min(5, t('articleTitleMin')),
-        articleSummary: z.string().min(10, t('articleSummaryMin')).max(2000, t('articleSummaryMax')),
-        articleSources: z.string().min(5, t('articleSourcesMin')).max(4000, t('articleSourcesMax')),
-        articleConclusion: z.string().min(5, t('articleConclusionMin')).max(3000, t('articleConclusionMax')),
+        relevance: z.string().refine(
+            (val) => {
+                const count = wordCount(val);
+                return count >= 30 && count <= 50;
+            },
+            { message: t("relevance") }
+        ),
+
+        goal: z.string().refine(
+            (val) => {
+                const count = wordCount(val);
+                return count >= 10 && count <= 20;
+            },
+            { message: t("goal") }
+        ),
+
+        methods: z.string().refine(
+            (val) => {
+                const count = wordCount(val);
+                return count >= 50 && count <= 80;
+            },
+            { message: t("methods") }
+        ),
+
+        results: z.string().refine(
+            (val) => {
+                const count = wordCount(val);
+                return count >= 120 && count <= 180;
+            },
+            { message: t("results") }
+        ),
+
+        conclusion: z.string().refine(
+            (val) => {
+                const count = wordCount(val);
+                return count >= 30 && count <= 50;
+            },
+            { message: t("conclusion") }
+        ),
     });
 
 export const createSponsorSchema = (t: (key: string) => string) =>
     z.object({
-        sponsorName: z.string().min(2, t('sponsorNameMin')),
+        name: z.string().min(2, t('sponsorNameMin')),
         email: z.string().email(t('emailInvalid')),
         phone: z
             .string()

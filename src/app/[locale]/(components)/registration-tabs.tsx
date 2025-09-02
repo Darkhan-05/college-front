@@ -19,10 +19,12 @@ import {
 } from "@/shared/helpers/validations";
 import API from "@/config/instance";
 import {toast} from 'sonner';
+import {AxiosError} from "axios";
 
 export default function RegistrationTabs() {
     const [tab, setTab] = useState<'confirm' | 'speaker' | 'sponsor'>('confirm');
     const [articleDialogOpen, setArticleDialogOpen] = useState(false);
+    const [mainDialogOpen, setMainDialogOpen] = useState(false);
     const t = useTranslations();
     const translate = useTranslations('registration')
     const lang = useLocale()
@@ -68,45 +70,65 @@ export default function RegistrationTabs() {
         try {
             const {agree, ...participantData} = data
             await API.post(`/participants?lang=${lang}`, participantData);
+            setMainDialogOpen(false);
             toast.success(t('success.participant'));
-        } catch (err) {
-            console.error('Ошибка при отправке участника:', err);
-            toast.error(t('error.participant'));
+        } catch (error) {
+            const err = error as AxiosError<{ message?: string }>;
+
+            if (err.response?.status === 400 && err.response?.data?.message === "Email уже занят") {
+                toast.error(t('errors.emailTaken'));
+            } else {
+                toast.error(t('errors.participant'));
+            }
+
+            console.error('Ошибка при отправке участника:', err.response?.status, err.response?.data);
         }
     };
 
     const onSubmitSpeaker = async (data: SpeakerForm) => {
         try {
-            const {articleTitle, articleSummary, articleSources, articleConclusion, agree, ...participantData} = data;
+            const {results, relevance, goal, methods, conclusion, agree, ...participantData} = data;
             const payload = {
                 ...participantData,
-                speaker: {articleTitle, articleSummary, articleSources, articleConclusion}
+                speaker: {results, relevance, goal, methods, conclusion}
             };
 
             await API.post(`/participants?lang=${lang}`, payload);
-
+            setMainDialogOpen(false);
             toast.success(t('success.speaker'));
-        } catch (err) {
+        } catch (error) {
+            const err = error as AxiosError<{ message?: string }>;
+
+            if (err.response?.status === 400 && err.response?.data?.message === "Email уже занят") {
+                toast.error(t('errors.emailTaken'));
+            } else {
+                toast.error(t('errors.speaker'));
+            }
             console.error('Ошибка при отправке спикера:', err);
-            toast.error(t('success.error'));
         }
     };
 
     const onSubmitSponsor = async (data: SponsorForm) => {
         try {
             const {agree, ...sponsorData} = data
-            const res = await API.post(`/sponsors?lang=${lang}`, sponsorData);
-
+            await API.post(`/sponsors?lang=${lang}`, sponsorData);
+            setMainDialogOpen(false);
             toast.success(t('success.sponsor'));
-        } catch (err) {
+        } catch (error) {
+            const err = error as AxiosError<{ message?: string }>;
+
+            if (err.response?.status === 400 && err.response?.data?.message === "Email уже занят") {
+                toast.error(t('errors.emailTaken'));
+            } else {
+                toast.error(t('errors.sponsor'));
+            }
             console.error('Ошибка при отправке спонсора:', err);
-            toast.error(t('error.sponsor'));
         }
     };
 
     return (
         <>
-            <Dialog>
+            <Dialog open={mainDialogOpen} onOpenChange={setMainDialogOpen}>
                 <DialogTrigger asChild>
                     <Button
                         className="font-semibold text-lg relative overflow-hidden transform transition duration-300 hover:scale-110"
@@ -117,7 +139,7 @@ export default function RegistrationTabs() {
                     </Button>
                 </DialogTrigger>
 
-                <DialogContent className="sm:max-w-lg">
+                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
                     <DialogHeader><DialogTitle>
                         <DialogTitle>{translate('title')}</DialogTitle>
                     </DialogTitle></DialogHeader>
@@ -145,7 +167,7 @@ export default function RegistrationTabs() {
 
                     {/* --- Участник --- */}
                     {tab === 'confirm' && (
-                        <form onSubmit={handleP(onSubmitParticipant)} className="space-y-4">
+                        <form onSubmit={handleP(onSubmitParticipant)} className="space-y-4 overflow-y-auto">
                             <div>
                                 <Input placeholder={translate('form.fullName')} {...registerP('fullName')} />
                                 {errorsP.fullName && <p className="text-red-600 text-sm">{errorsP.fullName.message}</p>}
@@ -282,9 +304,9 @@ export default function RegistrationTabs() {
                     {tab === 'sponsor' && (
                         <form onSubmit={handleSP(onSubmitSponsor)} className="space-y-4">
                             <div>
-                                <Input placeholder={translate('form.sponsorName')} {...registerSP('sponsorName')} />
-                                {errorsSP.sponsorName &&
-                                    <p className="text-red-600 text-sm">{errorsSP.sponsorName.message}</p>}
+                                <Input placeholder={translate('form.sponsorName')} {...registerSP('name')} />
+                                {errorsSP.name &&
+                                    <p className="text-red-600 text-sm">{errorsSP.name.message}</p>}
                             </div>
 
                             <div>
@@ -317,37 +339,60 @@ export default function RegistrationTabs() {
             </Dialog>
 
             <Dialog open={articleDialogOpen} onOpenChange={setArticleDialogOpen}>
-                <DialogContent>
+                <DialogContent className="max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                         <DialogTitle>{translate('article.title')}</DialogTitle>
                     </DialogHeader>
 
                     <div className="flex flex-col gap-2">
                         <div>
-                            <Input placeholder={translate('article.articleTitle')} {...registerS('articleTitle')} />
-                            {errorsS.articleTitle &&
-                                <p className="text-red-600 text-sm">{errorsS.articleTitle.message}</p>}
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                            </label>
+                            <textarea {...registerS('relevance')}
+                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                      placeholder="Актуальность (30–50 слов)"/>
+                            {errorsS.relevance && <p className="text-red-600 text-sm">{errorsS.relevance.message}</p>}
                         </div>
 
                         <div>
-                            <textarea className="w-full border rounded px-3 py-2" rows={3}
-                                      placeholder={translate('article.articleSummary')} {...registerS('articleSummary')} />
-                            {errorsS.articleSummary &&
-                                <p className="text-red-600 text-sm">{errorsS.articleSummary.message}</p>}
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                            </label>
+                            <textarea {...registerS('goal')}
+                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                      placeholder="Цель (10–20 слов)"/>
+                            {errorsS.goal && <p className="text-red-600 text-sm">{errorsS.goal.message}</p>}
                         </div>
 
                         <div>
-                            <textarea className="w-full border rounded px-3 py-2" rows={3}
-                                      placeholder={translate('article.articleSources')} {...registerS('articleSources')} />
-                            {errorsS.articleSources &&
-                                <p className="text-red-600 text-sm">{errorsS.articleSources.message}</p>}
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                            </label>
+                            <textarea {...registerS('methods')}
+                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                      placeholder="Материалы и методы (50–80 слов)"/>
+                            {errorsS.methods && <p className="text-red-600 text-sm">{errorsS.methods.message}</p>}
                         </div>
 
                         <div>
-                            <textarea className="w-full border rounded px-3 py-2" rows={3}
-                                      placeholder={translate('article.articleConclusion')} {...registerS('articleConclusion')} />
-                            {errorsS.articleConclusion &&
-                                <p className="text-red-600 text-sm">{errorsS.articleConclusion.message}</p>}
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                            </label>
+                            <textarea {...registerS('results')}
+                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                      placeholder="Результаты (120–180 слов)"/>
+                            {errorsS.results && <p className="text-red-600 text-sm">{errorsS.results.message}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                            </label>
+                            <textarea {...registerS('conclusion')}
+                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                      placeholder="Выводы (30–50 слов)"/>
+                            {errorsS.conclusion && <p className="text-red-600 text-sm">{errorsS.conclusion.message}</p>}
                         </div>
                     </div>
 
