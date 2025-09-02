@@ -28,7 +28,7 @@ export default function Speakers() {
     }, []);
 
     return (
-        <section id="speakers" className="py-12">
+        <section id="speakers" className="scroll-mt-32 my-12 sm:my-16 md:my-24 lg:my-44">
             <Container>
                 <h2 className="text-3xl font-semibold mb-6 text-center">Спикеры</h2>
 

@@ -8,7 +8,7 @@ export const createParticipantSchema = (t: (key: string) => string) =>
         email: z.string().email(t('emailInvalid')),
         phone: z
             .string()
-            .regex(/^\+[\d\s\-()]{7,20}$/, t('phoneInvalid')),
+            .regex(/^[\d\s()+-]{7,20}$/, t('phoneInvalid')),
         organization: z.string().min(3, t('organizationMin')),
         agree: z.boolean().refine(val => val === true, {
             message: t('agreeRequired'),
@@ -29,7 +29,7 @@ export const createSponsorSchema = (t: (key: string) => string) =>
         email: z.string().email(t('emailInvalid')),
         phone: z
             .string()
-            .regex(/^\+[\d\s\-()]{7,20}$/, t('phoneInvalid')),
+            .regex(/^[\d\s()+-]{7,20}$/, t('phoneInvalid')),
         agree: z.boolean().refine(val => val === true, {
             message: t('agreeRequired'),
         }),

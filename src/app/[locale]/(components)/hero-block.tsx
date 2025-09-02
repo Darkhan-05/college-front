@@ -35,12 +35,15 @@ export default function HeroBlock() {
             >
                 <CountdownTimer targetDate="2025-10-02T09:00:00"/>
 
-                <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">
-                    {t("title")}
-                </h1>
+                <div className="flex flex-col w-full gap-2 items-end">
+                    <h1 className="max-w-5xl text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">
+                        {t("title")}
+                    </h1>
+                    <h3 className="max-w-5xl text-2xl md:text-4x lg:text-5xl font-bold">{t("subtitle")}</h3>
+                </div>
 
-                <h3 className="text-2xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mt-2">{t("subtitle")}</h3>
-
+                <div className="flex w-full justify-end">
+                </div>
                 <p className="mt-2 max-md:text-lg text-3xl">
                     {t("location")} - {t("venue")}
                 </p>

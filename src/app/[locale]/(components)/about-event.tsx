@@ -9,7 +9,7 @@ export default function AboutEvent() {
     const t = useTranslations();
 
     return (
-        <motion.section id="about-event" className="mb-10">
+        <motion.section id="about-event" className="scroll-mt-32 my-12 sm:my-16 md:my-24 lg:my-44">
             <Container className="text-left flex justify-between">
                 <motion.div
                     transition={{ duration: 0.8 }}

@@ -41,14 +41,13 @@ export default function Home() {
     return (
         <>
             <Header/>
-            <main className="overflow-hidden space-y-14 last:spacey pb-24">
+            <main className="overflow-hidden pb-18">
                 <HeroBlock/>
                 <WelcomeBlock/>
                 <AboutEvent/>
                 <Speakers/>
                 <Program/>
                 <Contacts/>
-                <RegistrationTabs/>
             </main>
         </>
     );

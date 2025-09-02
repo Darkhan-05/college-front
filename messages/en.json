@@ -3,7 +3,7 @@
     "about_event": "About Event",
     "speakers": "Speakers",
     "program": "Program",
-    "contacts": "Contacts"
+    "contacts": "Contacts & location"
   },
   "countdown": {
     "label": "Time left",
@@ -53,45 +53,44 @@
   "speakers_title": "Speakers",
   "speakers": [
     {
-      "name": "Nariman Ermek",
-      "role": "President of the Regional Conference APOCP"
+      "name": "Alireza Mosavi Jarrahi, MSPH, Ph.D.",
+      "role": "Professor of Epidemiology, Medical School, Shahid Beheshti University of Medical Sciences, Tehran, Iran"
     },
     {
       "name": "DBA, DPA Prof. Nurbek Igissin",
       "role": "President of the Asian Pacific Organization for Cancer Prevention"
     },
     {
-      "name": "Prof. Abhishek Shankar",
-      "role": "Secretary General of the Asia-Pacific Organization for Cancer Prevention (APOCP)"
-    },
-    {
-      "name": "Rustem Moldagali",
-      "role": "Executive Director of the Conference Organizing Committee"
+      "name": "Dr. Shahid Pervez",
+      "role": "Professor & Senior Consultant Histopathologist, Aga Khan University Hospital, Karachi, Pakistan"
     }
   ],
   "contacts": {
-    "title": "Organizers' Contacts",
+    "title": "Contacts & location",
     "head_of_department": "Head of Department",
     "deputy_director": "Acting Deputy Director for Academic Affairs",
     "umo_head": "Head of Educational-Methodical Department",
     "methodists": "Methodologists"
   },
   "errors": {
-    "sponsorNameMin": "Minimum 3 characters required",
-    "fullNameMin": "Enter full name (at least 3 characters)",
-    "positionMin": "Enter your position",
-    "countryRequired": "Select a country",
-    "emailInvalid": "Enter a valid email address",
-    "phoneInvalid": "Enter phone in format +7 123 456",
-    "organizationMin": "Enter organization name",
-    "agreeRequired": "Consent to personal data processing is required",
-    "articleTitleMin": "Enter article title (at least 5 characters)",
-    "articleSummaryMin": "Enter summary (at least 10 characters)",
-    "articleSummaryMax": "Summary must not exceed 2000 characters",
-    "articleSourcesMin": "Enter sources (at least 5 characters)",
-    "articleSourcesMax": "Sources must not exceed 4000 characters",
-    "articleConclusionMin": "Enter conclusion (at least 5 characters)",
-    "articleConclusionMax": "Conclusion must not exceed 3000 characters"
+    "participant": "Failed to submit participant",
+    "speaker": "Failed to submit speaker",
+    "sponsor": "Failed to submit sponsor",
+    "sponsorNameMin": "Name must be at least 2 characters",
+    "fullNameMin": "Full name must be at least 3 characters",
+    "positionMin": "Please enter your position",
+    "countryRequired": "Please select a country",
+    "emailInvalid": "Please enter a valid email address",
+    "phoneInvalid": "Enter a valid phone number (7-20 characters, digits, spaces, +, -, parentheses allowed)",
+    "organizationMin": "Please enter the organization name",
+    "agreeRequired": "You must consent to the processing of personal data",
+    "articleTitleMin": "Article title must be at least 5 characters",
+    "articleSummaryMin": "Summary must be at least 10 characters",
+    "articleSummaryMax": "Summary cannot exceed 2000 characters",
+    "articleSourcesMin": "Sources must be at least 5 characters",
+    "articleSourcesMax": "Sources cannot exceed 4000 characters",
+    "articleConclusionMin": "Conclusion must be at least 5 characters",
+    "articleConclusionMax": "Conclusion cannot exceed 3000 characters"
   },
   "success": {
     "participant": "Please confirm your participation via the email link",

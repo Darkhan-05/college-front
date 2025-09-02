@@ -42,11 +42,11 @@ export function getMetaTags({
   const defaultTags = META_INFO.home.keywords[locale];
 
   return {
-    title: title ? `${title} - ${defaultTitle}` : defaultTitle,
+    title: title,
     description: description || defaultDescription,
     keywords: tags || defaultTags,
     authors: [
-      { name: 'MIR code company', url: 'https://mircode.pro' },
+      { name: 'Smart Aqmola', url: 'https://iaqmola.kz' },
       { name: 'Conference Organizer', url: ENV.BASE_ORIGIN },
     ],
     alternates: {

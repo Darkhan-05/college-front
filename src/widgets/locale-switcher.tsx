@@ -1,15 +1,9 @@
 'use client';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/shared/ui/select';
-import { useTransition } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useLocale } from 'use-intl';
-import { LANGUAGES } from '@/config/languages';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from '@/shared/ui/select';
+import {useTransition} from 'react';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
+import {useLocale} from 'use-intl';
+import {LANGUAGES} from '@/config/languages';
 
 export default function LocaleSwitcher() {
     const locale = useLocale();
@@ -36,14 +30,25 @@ export default function LocaleSwitcher() {
                 onValueChange={handleChangeLocale}
                 disabled={isPending}
             >
-                <SelectTrigger className='border-none !text-inherit !bg-transparent hover:!bg-background/10 shadow-none'>
-                    <SelectValue placeholder='language' />
+                <SelectTrigger
+                    className="
+                    px-4 py-3
+                    text-lg font-semibold
+                    rounded-md
+                    border border-primary
+                    bg-background/80 hover:bg-background/90
+                    shadow-md
+                    transition
+                  "
+                >
+                    <SelectValue placeholder="Язык"/>
                 </SelectTrigger>
-                <SelectContent className='shadow-xl shadow-primary/5'>
+                <SelectContent className="shadow-xl shadow-primary/10 text-base">
                     {LANGUAGES.map((lng, i) => (
                         <SelectItem
                             key={i}
                             value={lng.code}
+                            className="py-2 text-lg"
                         >
                             {lng.label}
                         </SelectItem>

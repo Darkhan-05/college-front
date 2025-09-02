@@ -11,9 +11,9 @@ export const META_INFO = {
     },
     home: {
         title: {
-            ru: 'Региональная конференция APOCP',
-            kk: 'APOCP аймақтық конференциясы',
-            en: 'APOCP Regional Conference',
+            ru: 'Региональная конференция APOCP в Кокшетау',
+            kk: 'APOCP аймақтық конференциясы, Көкшетау қаласы',
+            en: 'APOCP Regional Conference in Kokshetau',
         },
         description: {
             ru: 'Региональная конференция Asia-Pacific Organization for Cancer Prevention (APOCP), посвящённая 75-летию Кокшетауского высшего медицинского колледжа.',

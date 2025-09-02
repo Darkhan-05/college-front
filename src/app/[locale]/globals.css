@@ -103,3 +103,26 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-shine {
+  animation: shine 3s ease-in-out infinite;
+}
+
+Button:hover .animate-shine {
+  opacity: 0.5;
+}

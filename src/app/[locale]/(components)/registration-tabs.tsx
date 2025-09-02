@@ -23,13 +23,13 @@ import {toast} from 'sonner';
 export default function RegistrationTabs() {
     const [tab, setTab] = useState<'confirm' | 'speaker' | 'sponsor'>('confirm');
     const [articleDialogOpen, setArticleDialogOpen] = useState(false);
-    const t = useTranslations('errors');
+    const t = useTranslations();
     const translate = useTranslations('registration')
     const lang = useLocale()
 
-    const participantSchema = createParticipantSchema(t);
-    const speakerSchema = createSpeakerSchema(t);
-    const sponsorSchema = createSponsorSchema(t);
+    const participantSchema = createParticipantSchema(useTranslations('errors'));
+    const speakerSchema = createSpeakerSchema(useTranslations('errors'));
+    const sponsorSchema = createSponsorSchema(useTranslations('errors'));
     const countryKeys = Object.keys(translate.raw('countries'));
 
     const {
@@ -107,8 +107,14 @@ export default function RegistrationTabs() {
     return (
         <>
             <Dialog>
-                <DialogTrigger className="fixed z-[999] right-5 bottom-4" asChild>
-                    <Button>{translate('title')}</Button>
+                <DialogTrigger asChild>
+                    <Button
+                        className="font-semibold text-lg relative overflow-hidden transform transition duration-300 hover:scale-110"
+                    >
+                        {translate('title')}
+                        <span
+                            className="absolute top-0 left-0 w-full h-full bg-white opacity-0 pointer-events-none animate-shine"></span>
+                    </Button>
                 </DialogTrigger>
 
                 <DialogContent className="sm:max-w-lg">
@@ -188,15 +194,16 @@ export default function RegistrationTabs() {
                                 {errorsP.country && <p className="text-red-600 text-sm">{errorsP.country.message}</p>}
                             </div>
 
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    {...registerP("agree", {required: true})}
-                                />
-                                <Label>{translate('form.agree')}</Label>
+                            <div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        {...registerP("agree", {required: true})}
+                                    />
+                                    <Label>{translate('form.agree')}</Label>
+                                </div>
+                                {errorsP.agree && <p className="text-red-600 text-sm">{errorsP.agree.message}</p>}
                             </div>
-                            {errorsP.agree && <p className="text-red-600 text-sm">{errorsP.agree.message}</p>}
-
                             <DialogFooter>
                                 <Button type="submit" className="w-full">{translate('form.send')}</Button>
                             </DialogFooter>
@@ -256,15 +263,16 @@ export default function RegistrationTabs() {
 
                             <Button onClick={() => setArticleDialogOpen(true)}>{translate('article.title')}</Button>
 
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    {...registerS("agree", {required: true})}
-                                />
-                                <Label>{translate('form.agree')}</Label>
+                            <div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        {...registerS("agree", {required: true})}
+                                    />
+                                    <Label>{translate('form.agree')}</Label>
+                                </div>
+                                {errorsS.agree && <p className="text-red-600 text-sm">{errorsS.agree.message}</p>}
                             </div>
-                            {errorsS.agree && <p className="text-red-600 text-sm">{errorsS.agree.message}</p>}
-
                             <DialogFooter>
                                 <Button type="submit" className="w-full">{translate('form.send')}</Button>
                             </DialogFooter>
@@ -289,14 +297,16 @@ export default function RegistrationTabs() {
                                 {errorsSP.phone && <p className="text-red-600 text-sm">{errorsSP.phone.message}</p>}
                             </div>
 
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    {...registerSP("agree", {required: true})}
-                                />
-                                <Label>{translate('form.agree')}</Label>
+                            <div>
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        {...registerSP("agree", {required: true})}
+                                    />
+                                    <Label>{translate('form.agree')}</Label>
+                                </div>
+                                {errorsSP.agree && <p className="text-red-600 text-sm">{errorsSP.agree.message}</p>}
                             </div>
-                            {errorsSP.agree && <p className="text-red-600 text-sm">{errorsSP.agree.message}</p>}
 
                             <DialogFooter>
                                 <Button type="submit" className="w-full">{translate('form.becomeSponsor')}</Button>
