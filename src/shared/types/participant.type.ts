@@ -7,10 +7,11 @@ export type ParticipantType = {
     phone: string
     organization: string
     speaker?: {
-        articleTitle: string
-        articleSummary: string
-        articleSources: string
-        articleConclusion: string
+        relevance: string
+        goal: string
+        methods: string
+        results: string
+        conclusion: string
     }
-    isEmailSent?: boolean
+    isEmailSent: boolean
 }

@@ -4,6 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/shared/ui/dialog';
 import { Button } from '@/shared/ui/button';
 import { ParticipantType } from '@/shared/types/participant.type';
+import {useTranslations} from "next-intl";
+import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
 
 interface Props {
     participants: ParticipantType[];
@@ -12,6 +14,7 @@ interface Props {
 
 export const SpeakersTable = ({ participants, onInvite }: Props) => {
     const speakers = participants.filter((s) => s.speaker);
+    const t = useTranslations('registration.countries');
 
     return (
         <Card>
@@ -22,8 +25,8 @@ export const SpeakersTable = ({ participants, onInvite }: Props) => {
                         <TableRow>
                             <TableHead>ФИО</TableHead>
                             <TableHead>Организация</TableHead>
-                            <TableHead>Статья</TableHead>
                             <TableHead>Email</TableHead>
+                            <TableHead>Статус приглашения</TableHead>
                             <TableHead>Подробнее</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -32,25 +35,66 @@ export const SpeakersTable = ({ participants, onInvite }: Props) => {
                             <TableRow key={i}>
                                 <TableCell>{s.fullName}</TableCell>
                                 <TableCell>{s.organization}</TableCell>
-                                <TableCell>{s.speaker?.articleTitle}</TableCell>
                                 <TableCell>{s.email}</TableCell>
+                                <TableCell className="text-center">
+                                    {s.isEmailSent ? (
+                                        <FaCheckCircle className="text-green-500 inline" title="Отправлено" />
+                                    ) : (
+                                        <FaTimesCircle className="text-red-500 inline" title="Не отправлено" />
+                                    )}
+                                </TableCell>
                                 <TableCell>
                                     <Dialog>
-                                        <DialogTrigger className="text-blue-500 underline">Открыть</DialogTrigger>
+                                        <DialogTrigger className="text-blue-500 underline">
+                                            Открыть
+                                        </DialogTrigger>
                                         <DialogContent>
                                             <DialogHeader>
                                                 <DialogTitle>{s.fullName}</DialogTitle>
                                             </DialogHeader>
                                             <div className="space-y-2 max-h-[80vh] overflow-y-auto">
-                                                <p><strong>Должность:</strong> {s.position}</p>
-                                                <p><strong>Страна:</strong> {s.country}</p>
-                                                <p><strong>Email:</strong> {s.email}</p>
-                                                <p><strong>Телефон:</strong> {s.phone}</p>
-                                                <p><strong>Организация:</strong> {s.organization}</p>
-                                                <p><strong>Статья:</strong> {s.speaker?.articleTitle}</p>
-                                                <p><strong>Краткое содержание:</strong> {s.speaker?.articleSummary}</p>
-                                                <p><strong>Источники:</strong> {s.speaker?.articleSources}</p>
-                                                <p><strong>Заключение:</strong> {s.speaker?.articleConclusion}</p>
+                                                <p>
+                                                    <strong>Должность:</strong> {s.position}
+                                                </p>
+                                                <p>
+                                                    <strong>Страна:</strong> {t(s.country)}
+                                                </p>
+                                                <p>
+                                                    <strong>Email:</strong> {s.email}
+                                                </p>
+                                                <p>
+                                                    Статус приглашения
+                                                    {s.isEmailSent ? (
+                                                        <FaCheckCircle className="text-green-500 inline" title="Отправлено" />
+                                                    ) : (
+                                                        <FaTimesCircle className="text-red-500 inline" title="Не отправлено" />
+                                                    )}
+                                                </p>
+                                                <p>
+                                                    <strong>Телефон:</strong> {s.phone}
+                                                </p>
+                                                <p>
+                                                    <strong>Организация:</strong> {s.organization}
+                                                </p>
+
+                                                <hr />
+
+                                                <p>
+                                                    <strong>Актуальность:</strong> {s.speaker?.relevance}
+                                                </p>
+                                                <p>
+                                                    <strong>Цель:</strong> {s.speaker?.goal}
+                                                </p>
+                                                <p>
+                                                    <strong>Материалы и методы:</strong> {s.speaker?.methods}
+                                                </p>
+                                                <p>
+                                                    <strong>Результаты:</strong> {s.speaker?.results}
+                                                </p>
+                                                <p>
+                                                    <strong>Выводы:</strong> {s.speaker?.conclusion}
+                                                </p>
+
                                                 <hr />
                                                 <div className="flex w-full justify-end">
                                                     <Button variant="default" onClick={() => onInvite(s)}>
@@ -61,7 +105,8 @@ export const SpeakersTable = ({ participants, onInvite }: Props) => {
                                         </DialogContent>
                                     </Dialog>
                                 </TableCell>
-                            </TableRow>))}
+                            </TableRow>
+                        ))}
                         {speakers.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={5} className="text-center text-muted-foreground">

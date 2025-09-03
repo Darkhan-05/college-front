@@ -241,14 +241,24 @@ export default function RegistrationTabs() {
                             </div>
 
                             <div>
-                                <Input placeholder={translate('form.position')} {...registerS('position')} />
-                                {errorsS.position && <p className="text-red-600 text-sm">{errorsS.position.message}</p>}
+                                <Input placeholder={translate('form.email')} type="email" {...registerS('email')} />
+                                {errorsS.email && <p className="text-red-600 text-sm">{errorsS.email.message}</p>}
+                            </div>
+
+                            <div>
+                                <Input placeholder={translate('form.phone')} {...registerS('phone')} />
+                                {errorsS.phone && <p className="text-red-600 text-sm">{errorsS.phone.message}</p>}
                             </div>
 
                             <div>
                                 <Input placeholder={translate('form.organization')} {...registerS('organization')} />
                                 {errorsS.organization &&
                                     <p className="text-red-600 text-sm">{errorsS.organization.message}</p>}
+                            </div>
+
+                            <div>
+                                <Input placeholder={translate('form.position')} {...registerS('position')} />
+                                {errorsS.position && <p className="text-red-600 text-sm">{errorsS.position.message}</p>}
                             </div>
 
                             <div>
@@ -271,16 +281,6 @@ export default function RegistrationTabs() {
                                     )}
                                 />
                                 {errorsS.country && <p className="text-red-600 text-sm">{errorsS.country.message}</p>}
-                            </div>
-
-                            <div>
-                                <Input placeholder={translate('form.email')} type="email" {...registerS('email')} />
-                                {errorsS.email && <p className="text-red-600 text-sm">{errorsS.email.message}</p>}
-                            </div>
-
-                            <div>
-                                <Input placeholder={translate('form.phone')} {...registerS('phone')} />
-                                {errorsS.phone && <p className="text-red-600 text-sm">{errorsS.phone.message}</p>}
                             </div>
 
                             <Button onClick={() => setArticleDialogOpen(true)}>{translate('article.title')}</Button>
@@ -347,52 +347,72 @@ export default function RegistrationTabs() {
                     <div className="flex flex-col gap-2">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                                {translate("article.relevance")}
                             </label>
-                            <textarea {...registerS('relevance')}
-                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
-                                      placeholder="Актуальность (30–50 слов)"/>
-                            {errorsS.relevance && <p className="text-red-600 text-sm">{errorsS.relevance.message}</p>}
+                            <textarea
+                                {...registerS("relevance")}
+                                className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                placeholder={translate("article.relevance")}
+                            />
+                            {errorsS.relevance && (
+                                <p className="text-red-600 text-sm">{errorsS.relevance.message}</p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                                {translate("article.goal")}
                             </label>
-                            <textarea {...registerS('goal')}
-                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
-                                      placeholder="Цель (10–20 слов)"/>
-                            {errorsS.goal && <p className="text-red-600 text-sm">{errorsS.goal.message}</p>}
+                            <textarea
+                                {...registerS("goal")}
+                                className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                placeholder={translate("article.goal")}
+                            />
+                            {errorsS.goal && (
+                                <p className="text-red-600 text-sm">{errorsS.goal.message}</p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                                {translate("article.methods")}
                             </label>
-                            <textarea {...registerS('methods')}
-                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
-                                      placeholder="Материалы и методы (50–80 слов)"/>
-                            {errorsS.methods && <p className="text-red-600 text-sm">{errorsS.methods.message}</p>}
+                            <textarea
+                                {...registerS("methods")}
+                                className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                placeholder={translate("article.methods")}
+                            />
+                            {errorsS.methods && (
+                                <p className="text-red-600 text-sm">{errorsS.methods.message}</p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                                {translate("article.results")}
                             </label>
-                            <textarea {...registerS('results')}
-                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
-                                      placeholder="Результаты (120–180 слов)"/>
-                            {errorsS.results && <p className="text-red-600 text-sm">{errorsS.results.message}</p>}
+                            <textarea
+                                {...registerS("results")}
+                                className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                placeholder={translate("article.results")}
+                            />
+                            {errorsS.results && (
+                                <p className="text-red-600 text-sm">{errorsS.results.message}</p>
+                            )}
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Цель <span className="text-gray-400">(10–20 слов)</span>
+                                {translate("article.conclusion")}
                             </label>
-                            <textarea {...registerS('conclusion')}
-                                      className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
-                                      placeholder="Выводы (30–50 слов)"/>
-                            {errorsS.conclusion && <p className="text-red-600 text-sm">{errorsS.conclusion.message}</p>}
+                            <textarea
+                                {...registerS("conclusion")}
+                                className="w-full rounded-md border border-gray-300 focus:border-black focus:ring-1 focus:ring-black p-3 text-sm"
+                                placeholder={translate("article.conclusion")}
+                            />
+                            {errorsS.conclusion && (
+                                <p className="text-red-600 text-sm">{errorsS.conclusion.message}</p>
+                            )}
                         </div>
                     </div>
 

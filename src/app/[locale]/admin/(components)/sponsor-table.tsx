@@ -4,6 +4,7 @@ import {Card, CardContent} from '@/shared/ui/card';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/shared/ui/table';
 import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from '@/shared/ui/dialog';
 import {SponsorType} from "@/shared/types/sponsor.type";
+import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
 
 
 interface Props {
@@ -20,6 +21,7 @@ export const SponsorsTable = ({sponsors}: Props) => {
                         <TableRow>
                             <TableHead>Имя</TableHead>
                             <TableHead>Email</TableHead>
+                            <TableHead>Статус приглашения</TableHead>
                             <TableHead>Телефон</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -28,6 +30,13 @@ export const SponsorsTable = ({sponsors}: Props) => {
                             <TableRow key={i}>
                                 <TableCell>{s.name}</TableCell>
                                 <TableCell>{s.email}</TableCell>
+                                <TableCell className="text-center">
+                                    {s.isEmailSent ? (
+                                        <FaCheckCircle className="text-green-500 inline" title="Отправлено" />
+                                    ) : (
+                                        <FaTimesCircle className="text-red-500 inline" title="Не отправлено" />
+                                    )}
+                                </TableCell>
                                 <TableCell>{s.phone}</TableCell>
                                 <TableCell>
                                     <Dialog>

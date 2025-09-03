@@ -8,12 +8,15 @@ import {
 } from '@/shared/ui/pagination';
 import { ParticipantType } from '@/shared/types/participant.type';
 import {usePagination} from "@/shared/hooks/use-pagination";
+import {FaCheckCircle, FaTimesCircle} from "react-icons/fa";
+import {useTranslations} from "next-intl";
 
 interface Props {
     participants: ParticipantType[];
 }
 
 export const ParticipantsTable = ({ participants }: Props) => {
+    const t = useTranslations('registration.countries')
     const itemsPerPage = 10;
     const { currentPage, totalPages, changePage, getPageNumbers } = usePagination(participants.length, itemsPerPage);
 
@@ -38,6 +41,7 @@ export const ParticipantsTable = ({ participants }: Props) => {
                             <TableHead>Должность</TableHead>
                             <TableHead>Страна</TableHead>
                             <TableHead>Email</TableHead>
+                            <TableHead>Статус приглашения</TableHead>
                             <TableHead>Действие</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -46,8 +50,15 @@ export const ParticipantsTable = ({ participants }: Props) => {
                             <TableRow key={i}>
                                 <TableCell>{p.fullName}</TableCell>
                                 <TableCell>{p.position}</TableCell>
-                                <TableCell>{p.country}</TableCell>
+                                <TableCell>{t(p.country)}</TableCell>
                                 <TableCell>{p.email}</TableCell>
+                                <TableCell className="text-center">
+                                    {p.isEmailSent ? (
+                                        <FaCheckCircle className="text-green-500 inline" title="Отправлено" />
+                                    ) : (
+                                        <FaTimesCircle className="text-red-500 inline" title="Не отправлено" />
+                                    )}
+                                </TableCell>
                                 <TableCell>
                                     <Dialog>
                                         <DialogTrigger className="text-blue-500 underline">Открыть</DialogTrigger>

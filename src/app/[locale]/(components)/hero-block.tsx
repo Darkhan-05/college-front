@@ -48,7 +48,7 @@ export default function HeroBlock() {
                     {t("location")} - {t("venue")}
                 </p>
 
-                <p className="mt-2 max-md:text-lg text-3xl">{t("format")}</p>
+                {/*<p className="mt-2 max-md:text-lg text-3xl">{t("format")}</p>*/}
             </motion.div>
         </section>
     );

@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { FaCheckCircle, FaYoutube, FaMapMarkerAlt, FaSpinner } from 'react-icons/fa';
+import { FaCheckCircle, FaMapMarkerAlt, FaSpinner } from 'react-icons/fa';
 import API from '@/config/instance';
 import { useLocale, useTranslations } from 'next-intl';
 import { toast } from 'sonner';

@@ -11,14 +11,14 @@ export default function Program() {
             <div
                 className='absolute inset-0 z-0'
             >
-                <span className='absolute top-0 inset-0 z-10 bg-black/10'/>
+                <span className='absolute top-0 inset-0 z-10 bg-black/20'/>
                 <Image
                     draggable={false}
                     width={1920}
                     height={1080}
                     className='w-full h-full object-cover select-none'
                     src="/kmk-banner.webp"
-                    alt={'asdfasdf'}
+                    alt={'kmk-banner'}
                 />
             </div>
             <motion.section

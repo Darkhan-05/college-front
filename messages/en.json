@@ -62,6 +62,10 @@
   "speakers_title": "Speakers",
   "speakers": [
     {
+      "name": "Professor Jeff Dunn",
+      "role": "Professor of Social and Behavioural Science, University of Southern Queensland; Chair of Cancer Survivorship"
+    },
+    {
       "name": "Alireza Mosavi Jarrahi, MSPH, Ph.D.",
       "role": "Professor of Epidemiology, Medical School, Shahid Beheshti University of Medical Sciences, Tehran, Iran"
     },
@@ -133,10 +137,11 @@
     },
     "article": {
       "title": "About my article",
-      "articleTitle": "Article title",
-      "articleSummary": "Short summary",
-      "articleSources": "Sources",
-      "articleConclusion": "Conclusion",
+      "relevance": "Relevance (30–50 words)",
+      "goal": "Goal (10–20 words)",
+      "methods": "Materials and Methods (50–80 words)",
+      "results": "Results (120–180 words)",
+      "conclusion": "Conclusion (30–50 words)",
       "saveAndClose": "Save and close"
     },
     "countries": {
