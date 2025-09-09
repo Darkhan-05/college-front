@@ -50,7 +50,7 @@ export default function Header() {
                     </div>
 
                     {/* Десктоп навигация */}
-                    <nav className="hidden xl:flex lg:items-center space-x-4">
+                    <nav className="hidden 2xl:flex lg:items-center space-x-4">
                         <RegistrationTabs/>
                         {navItems.map(({ href, label }) => (
                             <Link key={href} href={href} className="text-gray-600 hover:text-black">
@@ -61,7 +61,7 @@ export default function Header() {
                     </nav>
 
                     {/* Mobile Menu с Sheet */}
-                    <div className="xl:hidden">
+                    <div className="2xl:hidden">
                         <Sheet>
                             <SheetTrigger asChild>
                                 <button className="flex items-center p-2 rounded-md hover:bg-gray-100">
