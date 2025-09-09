@@ -24,7 +24,7 @@ export default function AboutEvent() {
                     <h2 className="text-3xl font-semibold mb-4">
                         {t("about_event.title")}
                     </h2>
-                    <p className="text-muted-foreground text-lg whitespace-pre-line">
+                    <p className="text-muted-foreground text-justify text-lg whitespace-pre-line">
                         {t("about_event.description")}
                     </p>
                 </motion.div>

@@ -36,7 +36,7 @@ export default function WelcomeSequence() {
                     </motion.h1>
 
                     <motion.p
-                        className="text-lg leading-relaxed text-gray-700 whitespace-pre-line"
+                        className="text-lg leading-relaxed text-justify text-gray-700 whitespace-pre-line"
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         transition={{ delay: 0.3, duration: 1 }}

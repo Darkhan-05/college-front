@@ -20,8 +20,8 @@ export default function Header() {
 
     return (
         <header className="bg-white shadow font-semibold z-50 w-full">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-24 items-center">
+            <div className="custom-container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-32 items-center">
                     {/* Логотипы */}
                     <div className="flex items-center gap-10">
                         <div className="flex items-center gap-4">
@@ -32,11 +32,19 @@ export default function Header() {
                         <div className="flex items-center gap-10">
                             <Image alt="test" draggable={false} className="max-md:w-16" src="/logo-apocp.svg" width={60} height={60}/>
                             {locale === "kk" ? (
-                                <Image alt="College logo" draggable={false} className="max-md:w-16"
-                                       src={`/logo-college-kk.webp`} width={120} height={120}/>
+                                <>
+                                    <Image alt="College logo" draggable={false} className="max-md:w-16"
+                                           src={`/logo-college-kk.webp`} width={120} height={120}/>
+                                    <Image alt="College logo" draggable={false} className=""
+                                           src={`/insure-kk.webp`} width={200} height={200}/>
+                                </>
                             ) : (
-                                <Image alt="College logo" draggable={false} className="max-md:w-16"
-                                       src={`/logo-college-en.webp`} width={120} height={120}/>
+                                <>
+                                    <Image alt="College logo" draggable={false} className="max-md:w-16"
+                                           src={`/logo-college-en.webp`} width={120} height={120}/>
+                                    <Image alt="College logo" draggable={false} className="max-md:w-16"
+                                           src={`/insure-ru.webp`} width={200} height={200}/>
+                                </>
                             )}
                         </div>
                     </div>

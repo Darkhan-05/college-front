@@ -86,6 +86,23 @@ html {
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+.custom-container {
+  @media (width >= 40rem) {
+    max-width: 48rem;
+  }
+  @media (width >= 48rem) {
+    max-width: 56rem;
+  }
+  @media (width >= 64rem) {
+    max-width: 72rem;
+  }
+  @media (width >= 80rem) {
+    max-width: 90rem;
+  }
+  @media (width >= 96rem) {
+    max-width: 108rem;
+  }
+}
 
 @layer base {
   * {
