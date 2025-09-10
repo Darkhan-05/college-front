@@ -2,7 +2,7 @@ import "./globals.css";
 import {NextIntlClientProvider} from "next-intl";
 import {Toaster} from "sonner";
 
-export default async function RootLayout({
+export default async function LocaleLayout({
     children,
     params,
 }: Readonly<{

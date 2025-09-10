@@ -44,14 +44,14 @@ export default async function Page(
     return (
         <>
             <Header locale={locale}/>
-            <main className="overflow-hidden pb-18">
+            <div className="overflow-hidden pb-18">
                 <HeroBlock/>
                 <WelcomeBlock/>
                 <AboutEvent/>
                 <Speakers/>
                 <Program/>
                 <Contacts/>
-            </main>
+            </div>
         </>
     );
 }
