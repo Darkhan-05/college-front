@@ -2,7 +2,6 @@ import Speakers from "@/app/[locale]/(components)/speakers";
 import Program from "@/app/[locale]/(components)/program";
 import AboutEvent from "@/app/[locale]/(components)/about-event";
 import HeroBlock from "@/app/[locale]/(components)/hero-block";
-import RegistrationTabs from "@/app/[locale]/(components)/registration-tabs";
 import Contacts from "@/app/[locale]/(components)/contacts";
 import Header from "@/widgets/header";
 import WelcomeBlock from "@/app/[locale]/(components)/welcome-block";
@@ -21,9 +20,9 @@ type PropsType = {
 
 
 export async function generateMetadata(
-    { params }: PropsType,
+    {params}: PropsType,
 ): Promise<Metadata> {
-    const { locale } = await params;
+    const {locale} = await params;
 
     return getMetaTags({
         title: META_INFO.home.title[locale],
@@ -36,11 +35,15 @@ export async function generateMetadata(
 }
 
 
-export default function Home() {
+export default async function Page(
+    {params}:
+    { params: Promise<{ locale: string }>; }
+) {
+    const { locale } = await params;
 
     return (
         <>
-            <Header/>
+            <Header locale={locale}/>
             <main className="overflow-hidden pb-18">
                 <HeroBlock/>
                 <WelcomeBlock/>

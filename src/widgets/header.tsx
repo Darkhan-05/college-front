@@ -1,14 +1,11 @@
-'use client';
-
 import Image from "next/image";
 import Link from "next/link";
-import {useLocale, useTranslations} from "next-intl";
+import {useTranslations} from "next-intl";
 import LocaleSwitcher from "@/widgets/locale-switcher";
 import RegistrationTabs from "@/app/[locale]/(components)/registration-tabs";
 import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/shared/ui/sheet";
 
-export default function Header() {
-    const locale = useLocale();
+export default function Header({locale}: {locale: string}) {
     const t = useTranslations("header");
 
     const navItems = [
