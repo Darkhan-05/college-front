@@ -38,7 +38,11 @@ export default async function LocaleLayout({
     const {locale} = await params
 
     return (
-        <html lang={locale}>
+        <html
+            lang={locale}
+            translate='no'
+            suppressHydrationWarning
+        >
         <body>
         <NextIntlClientProvider>
             <Toaster richColors position="top-center"/>
