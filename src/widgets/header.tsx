@@ -26,7 +26,7 @@ export default function Header() {
                     <div className="flex items-center gap-10">
                         <div className="flex items-center gap-4">
                             <Image alt="test" draggable={false} className="max-md:w-16" src="/logo-aqmola.svg" width={60} height={60}/>
-                            <Image alt="test" draggable={false} className="max-md:w-16 w-36"
+                            <Image alt="test" draggable={false} className="hidden max-md:block w-36"
                                    src={`/logo-smart-aqmola-${locale}.webp`} width={200} height={130}/>
                         </div>
                         <div className="flex items-center gap-10">
