@@ -1,26 +1,24 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import {NextIntlClientProvider} from "next-intl";
 import {Toaster} from "sonner";
 
-export const metadata: Metadata = {
-  title: "Региональная конференция APOCP",
-  description: "Региональная конференция APOCP Кокшетау",
-};
-
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+    children,
+    params,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode,
+    params: Promise<{ locale: string }>;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-      <NextIntlClientProvider>
-          <Toaster richColors position="top-center" />
-          {children}
-      </NextIntlClientProvider>
-      </body>
-    </html>
-  );
+    const {locale} = await params
+
+    return (
+        <html lang={locale}>
+        <body>
+        <NextIntlClientProvider>
+            <Toaster richColors position="top-center"/>
+            {children}
+        </NextIntlClientProvider>
+        </body>
+        </html>
+    );
 }
