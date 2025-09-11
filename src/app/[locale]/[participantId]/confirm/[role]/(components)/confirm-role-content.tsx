@@ -32,7 +32,7 @@ export default function ConfirmRoleContent(
             <Header locale={locale}/>
             <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">
                 <div className="bg-white shadow-md rounded-lg p-8 max-w-xl w-full">
-                    {confirmed ? (
+                    {!confirmed ? (
                         <>
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                                 {t(`${role}ConfirmTitle`)}
