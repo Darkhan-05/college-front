@@ -38,7 +38,7 @@ export default function AdminContent() {
     const handleInvite = async (participant: ParticipantType | null) => {
         if (!participant) return;
         try {
-            await API.get(ENDPOINTS.POST.SEND_FINAL_EMAIL_SPEAKER(participant.id));
+            await API.post(ENDPOINTS.POST.SEND_FINAL_EMAIL_SPEAKER(participant.id));
             toast.success(`${participant.fullName} приглашен(а) как спикер.`);
         } catch (error) {
             toast.error(`Ошибка при приглашении: ${error}`);
