@@ -18,6 +18,7 @@ type PropsType = {
     }>;
 };
 
+export const revalidate = 60;
 
 export async function generateMetadata(
     {params}: PropsType,
@@ -49,7 +50,7 @@ export default async function Page(
                 <WelcomeBlock/>
                 <AboutEvent/>
                 <Speakers/>
-                <Program/>
+                <Program locale={locale}/>
                 <Contacts/>
             </div>
         </>

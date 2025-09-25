@@ -3,7 +3,7 @@ import {motion} from 'motion/react';
 import {useTranslations} from 'next-intl';
 import Image from "next/image";
 
-export default function Program() {
+export default function Program({locale}: {locale: string}) {
     const t = useTranslations();
 
     return (
@@ -58,7 +58,7 @@ export default function Program() {
                         {t('poster.description')}
                     </p>
                     <a
-                        href="/Положение постерные.docx"
+                        href={locale === 'kk' ? "/doc-kk.docx": "/doc-ru.docx"}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block mx-auto px-6 py-3 bg-[#1488C1] rounded-lg opacity-95 shadow hover:opacity-100 transition"
