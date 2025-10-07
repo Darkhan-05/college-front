@@ -34,7 +34,7 @@ export default function Program({locale}: {locale: string}) {
                         {t('program.description')}
                     </p>
                     <a
-                        href="/program.pdf"
+                        href={`/programm-${locale}.pdf`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-block mx-auto px-6 py-3 bg-[#1488C1] rounded-lg opacity-95 shadow hover:opacity-100 transition"
